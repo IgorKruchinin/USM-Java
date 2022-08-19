@@ -21,4 +21,9 @@ public class StringSection {
     public final String get(int index) {
         return objects_.get(index);
     }
+    public void parse(String str) throws USMSectionException {
+        if (str.charAt(0) != 's') {
+            throw new USMSectionException("Non StringSection string given to parse method");
+        }
+    }
 }
