@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class IntSection {
     private String name_;
-    private List<Integer> objects_;
+    private final List<Integer> objects_;
     public IntSection(String name) {
         name_ = name;
         objects_ = new Vector<>();
