@@ -10,7 +10,7 @@ public class IntSection {
     private List<Integer> objects_;
     public IntSection(String name) {
         name_ = name;
-        objects_ = new Vector<Integer>();
+        objects_ = new Vector<>();
     }
     public IntSection(String name, Integer[] vec) {
         name_ = name;

@@ -10,7 +10,7 @@ public class StringSection {
     private List<String> objects_;
     public StringSection(String name) {
         name_ = name;
-        objects_ = new Vector<String>();
+        objects_ = new Vector<>();
     }
     public final String get_name() {
         return name_;
