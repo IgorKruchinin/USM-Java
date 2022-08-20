@@ -1,5 +1,4 @@
 package USM;
-import org.jetbrains.annotations.NotNull;
 import java.util.Vector;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class IntSection {
     public final int get(int index) {
         return objects_.get(index);
     }
-    public void parse(@NotNull String str) throws USMSectionException {
+    public void parse(String str) throws USMSectionException {
         if (str.charAt(0) != 'i') {
             throw new USMSectionException("Non IntSection string given to parse method");
         }
