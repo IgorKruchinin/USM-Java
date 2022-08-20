@@ -1,4 +1,6 @@
 package USM;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.nio.file.Path;
@@ -35,6 +37,30 @@ public class USM {
 
     }
     public void to_file() {
+        Path path = Paths.get("profiles/", name_ + ".uto");
+        try (final OutputStream outputStream = Files.newOutputStream(path)) {
+            StringBuilder text_buf = new StringBuilder();
+
+            for (Map.Entry<String, StringSection> entry: ssecs_.entrySet()) {
+                text_buf.append("s<").append(entry.getKey()).append(">");
+                for (String obj: entry.getValue().getObjects_()) {
+                    text_buf.append(obj).append("|<\\e>");
+                }
+                text_buf.append("\n");
+            }
+
+            for (Map.Entry<String, IntSection> entry: isecs_.entrySet()) {
+                text_buf.append("i<").append(entry.getKey()).append(">");
+                for (Integer obj: entry.getValue().getObjects_()) {
+                    text_buf.append(obj).append("|<\\e>");
+                }
+                text_buf.append("\n");
+            }
+
+            outputStream.write(text_buf.toString().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
     public IntSection geti(final String name) {
@@ -44,10 +70,10 @@ public class USM {
         return ssecs_.get(name);
     }
     public void create_isec(String name) {
-
+        isecs_.put(name, new IntSection(name));
     }
     public void create_ssec(String name) {
-
+        ssecs_.put(name, new StringSection(name));
     }
     public final boolean opened() {
         return is_opened;

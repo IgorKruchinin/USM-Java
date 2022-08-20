@@ -28,6 +28,9 @@ public class StringSection {
     public final String get(int index) {
         return objects_.get(index);
     }
+    public final List<String> getObjects_() {
+        return objects_;
+    }
     public void parse(@NotNull String str) throws USMSectionException {
         if (str.charAt(0) != 's') {
             throw new USMSectionException("Non StringSection string given to parse method");
@@ -46,7 +49,6 @@ public class StringSection {
                 first_in = false;
             else if (!first_in && !name_entered && s != '>') {
                 sec_name.append(s);
-                //std::cout << sec_name;
             } else if (s == '>' && !first_in && !name_entered) {
                 name_entered = true;
                 continue_reading = true;

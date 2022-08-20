@@ -25,6 +25,9 @@ public class IntSection {
     public int size() {
         return objects_.size();
     }
+    public final List<Integer> getObjects_() {
+        return objects_;
+    }
     public final int get(int index) {
         return objects_.get(index);
     }
