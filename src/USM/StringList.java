@@ -6,13 +6,12 @@ public class StringList {
     public StringList(final char cc) {
         c = cc;
     }
-    public StringList add(char cc) {
+    public void add(char cc) {
         StringList sl = this;
         while(sl.next != null) {
             sl = sl.next;
         }
         sl.next = new StringList(cc);
-        return sl.next;
     }
     public final String to_string(int beg, int end) {
         StringBuilder str = new StringBuilder();
