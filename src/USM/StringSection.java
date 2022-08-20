@@ -1,5 +1,6 @@
 package USM;
 import org.jetbrains.annotations.NotNull;
+import java.util.Vector;
 
 import java.util.List;
 import java.util.Arrays;
@@ -9,6 +10,7 @@ public class StringSection {
     private List<String> objects_;
     public StringSection(String name) {
         name_ = name;
+        objects_ = new Vector<String>();
     }
     public final String get_name() {
         return name_;
@@ -51,14 +53,13 @@ public class StringSection {
                 continue;
             }
             if (continue_reading) {
+                sl.add(s);
                 if (cnt < 4) {
-                    sl.add(s);
                     if (first_after_init_flag) {
                         sl = sl.next;
                         first_after_init_flag = false;
                     }
                 } else {
-                    sl.add(s);
                     if (!(sl.to_string(1, 5).equals("<\\e>"))) {
                         obj_buff.append(sl.c);
                     } else {
@@ -67,7 +68,9 @@ public class StringSection {
                         sl = sl.end();
                         cnt = 0;
                         first_after_init_flag = true;
+                        continue;
                     }
+                    sl = sl.next;
                 }
                 ++cnt;
             }
