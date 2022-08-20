@@ -1,4 +1,5 @@
 package USM;
+import java.util.HashMap;
 import java.util.Map;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +13,9 @@ public class USM {
     private boolean is_opened;
     public USM(final String name) {
         name_ = name;
-        Path path = Paths.get("/usr/home/smurf/profiles/", name_ + ".uto");
+        Path path = Paths.get("profiles/", name_ + ".uto");
+        isecs_ = new HashMap<String, IntSection>();
+        ssecs_ = new HashMap<String, StringSection>();
         try {
             is_opened = true;
             for (String s: Files.readAllLines(path, StandardCharsets.UTF_8)) {
