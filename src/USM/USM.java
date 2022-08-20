@@ -14,8 +14,8 @@ public class USM {
     public USM(final String name) {
         name_ = name;
         Path path = Paths.get("profiles/", name_ + ".uto");
-        isecs_ = new HashMap<String, IntSection>();
-        ssecs_ = new HashMap<String, StringSection>();
+        isecs_ = new HashMap<>();
+        ssecs_ = new HashMap<>();
         try {
             is_opened = true;
             for (String s: Files.readAllLines(path, StandardCharsets.UTF_8)) {
