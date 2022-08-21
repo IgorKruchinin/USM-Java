@@ -2,11 +2,13 @@ package USM;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.charset.StandardCharsets;
+import java.util.Vector;
 
 public class USM {
     private String name_;
@@ -32,9 +34,26 @@ public class USM {
                 }
             }
         } catch (java.io.IOException | USMSectionException e) {
-            System.exit(1);
+            is_opened = false;
         }
-
+        if (!is_opened) {
+            try {
+                Files.createFile(path);
+            } catch (IOException e) {
+                System.exit(1);
+            }
+        }
+    }
+    public USM(String name, int flag) {
+        if (flag == 1) {
+            try {
+                name_ = name;
+                isecs_ = new HashMap<>();
+                ssecs_ = new HashMap<>();
+                Path path = Paths.get("profiles/", name_ + ".uto");
+                Files.createFile(path);
+            } catch (IOException ignored) {}
+        }
     }
     public void to_file() {
         Path path = Paths.get("profiles/", name_ + ".uto");
@@ -77,5 +96,21 @@ public class USM {
     }
     public final boolean opened() {
         return is_opened;
+    }
+    public static List<USM> get_profiles() {
+        List<USM> profiles = new Vector<>();
+        Path path = Paths.get("profiles/profiles_list.txt");
+        try {
+            for (String s : Files.readAllLines(path, StandardCharsets.UTF_8)) {
+                profiles.add(new USM(s));
+            }
+        } catch (IOException e) {
+            try {
+                Files.createFile(path);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+        return profiles;
     }
 }
