@@ -114,3 +114,56 @@ public class USM {
         return profiles;
     }
 }
+
+class Arithmetics {
+    public static int computeExpression(String expression) {
+        List<StringBuilder> sb = new Vector<>();
+        List<Integer> op = new Vector<>();
+        int k = -1;
+        boolean crStrBld= true;
+        for (int i = 0; i < expression.length(); ++i) {
+            char c = expression.charAt(i);
+            if (c != ' ') {
+                if (c == '+') {
+                    op.add(0);
+                    crStrBld = true;
+                }  else if (c == '-') {
+                    op.add(1);
+                    crStrBld = true;
+                }  else if (c == '*') {
+                    op.add(2);
+                    crStrBld = true;
+                }  else if (c == '/') {
+                    op.add(3);
+                    crStrBld = true;
+                } else {
+                    if (crStrBld) {
+                        sb.add(new StringBuilder());
+                        ++k;
+                        crStrBld = false;
+                    } else {
+                        sb.get(k).append(c);
+                    }
+                }
+            }
+        }
+        int result = Integer.parseInt(sb.get(0).toString());
+        for (int i = 1, j = 0; i < sb.size() && j < sb.size() - 1; ++i, ++j) {
+            switch (op.get(j)) {
+                case 0:
+                    result += Integer.parseInt(sb.get(i).toString());
+                    break;
+                case 1:
+                    result -= Integer.parseInt(sb.get(i).toString());
+                    break;
+                case 2:
+                    result *= Integer.parseInt(sb.get(i).toString());
+                    break;
+                case 3:
+                    result /= Integer.parseInt(sb.get(i).toString());
+                    break;
+            }
+        }
+        return result;
+    }
+}
