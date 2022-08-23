@@ -4,7 +4,7 @@ import java.util.Vector;
 import java.util.List;
 import java.util.Arrays;
 
-public class IntSection {
+public class IntSection implements Section {
     private String name_;
     private final List<Integer> objects_;
     public IntSection(String name) {
@@ -14,6 +14,9 @@ public class IntSection {
     public IntSection(String name, Integer[] vec) {
         name_ = name;
         objects_ = Arrays.asList(vec);
+    }
+    public int get_format() {
+        return 0;
     }
     public String get_name() {
         return name_;

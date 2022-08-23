@@ -4,12 +4,15 @@ import java.util.Vector;
 import java.util.List;
 import java.util.Arrays;
 
-public class StringSection {
+public class StringSection implements Section {
     private String name_;
     private final List<String> objects_;
     public StringSection(String name) {
         name_ = name;
         objects_ = new Vector<>();
+    }
+    public int get_format() {
+        return 1;
     }
     public final String get_name() {
         return name_;
