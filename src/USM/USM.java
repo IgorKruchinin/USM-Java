@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 
 public class USM {
     private String name_;
+    private String program_name_ = "";
     //private Map<String, IntSection> isecs_;
     //private Map<String, StringSection> ssecs_;
     private SortedMap<String, Section> secs_;
@@ -64,6 +65,56 @@ public class USM {
             } catch (IOException ignored) {}
         }
     }
+    public USM(final String name, final String program_name) {
+        name_ = name;
+        program_name_ = program_name;
+        Path path = Paths.get("profiles", File.separator,  name_ + ".uto");
+        //isecs_ = new HashMap<>();
+        //ssecs_ = new HashMap<>();
+        secs_ = new TreeMap<>();
+        formats = new Vector<>();
+        try {
+            is_opened = true;
+            for (String s: Files.readAllLines(path, StandardCharsets.UTF_8)) {
+                if (s.charAt(0) == 'i') {
+                    Section auto = new IntSection("auto");
+                    auto.parse(s);
+                    secs_.put(auto.get_name(), auto);
+                    formats.add(0);
+                } else if (s.charAt(0) == 's') {
+                    Section auto = new StringSection("auto");
+                    auto.parse(s);
+                    secs_.put(auto.get_name(), auto);
+                    formats.add(1);
+                }
+            }
+        } catch (java.io.IOException | USMSectionException e) {
+            is_opened = false;
+        }
+        if (!is_opened) {
+            try {
+                Files.createFile(path);
+                Files.write(Paths.get("profiles", File.separator, "profiles_list.txt"), (name_ + ":" + program_name).getBytes(), StandardOpenOption.APPEND);
+            } catch (IOException e) {
+                System.exit(1);
+            }
+        }
+    }
+    public USM(String name, String program_name, int flag) {
+        if (flag == 1) {
+            try {
+                name_ = name;
+                program_name_ = program_name;
+                //isecs_ = new HashMap<>();
+                //ssecs_ = new HashMap<>();
+                secs_ = new TreeMap<>();
+                formats = new Vector<>();
+                Path path = Paths.get("profiles", File.separator, name_ + ".uto");
+                Files.createFile(path);
+                Files.write(Paths.get("profiles", File.separator, "profiles_list.txt"), (name_ + ":" + program_name).getBytes(), StandardOpenOption.APPEND);
+            } catch (IOException ignored) {}
+        }
+    }
     public final String get_name() {
         return name_;
     }
@@ -114,6 +165,9 @@ public class USM {
     public final List<Integer> get_formats() {
         return formats;
     }
+    public final String get_program_name() {
+        return program_name_;
+    }
     public int size() {
         return secs_.size();
     }
@@ -125,7 +179,27 @@ public class USM {
         Path path = Paths.get("profiles", File.separator,"profiles_list.txt");
         try {
             for (String s : Files.readAllLines(path, StandardCharsets.UTF_8)) {
-                profiles.add(new USM(s));
+                String[] s1 = s.split(":");
+                profiles.add(new USM(s1[0]));
+            }
+        } catch (IOException e) {
+            try {
+                Files.createFile(path);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+        return profiles;
+    }
+    public static List<USM> get_profiles(final String program_name) {
+        List<USM> profiles = new Vector<>();
+        Path path = Paths.get("profiles", File.separator,"profiles_list.txt");
+        try {
+            for (String s : Files.readAllLines(path, StandardCharsets.UTF_8)) {
+                String[] s1 = s.split(":");
+                if (s1.length == 1 || s1[1].equals(program_name)) {
+                    profiles.add(new USM(s1[0]));
+                }
             }
         } catch (IOException e) {
             try {
