@@ -197,8 +197,10 @@ public class USM {
         try {
             for (String s : Files.readAllLines(path, StandardCharsets.UTF_8)) {
                 String[] s1 = s.split(":");
-                if (s1.length == 1 || s1[1].equals(program_name)) {
-                    profiles.add(new USM(s1[0]));
+                if (s1.length > 0) {
+                    if (s1.length == 1 || s1[1].equals(program_name)) {
+                        profiles.add(new USM(s1[0]));
+                    }
                 }
             }
         } catch (IOException e) {
